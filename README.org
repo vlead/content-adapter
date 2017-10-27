@@ -1,0 +1,5 @@
+#+TITLE: Content Adapter
+#+AUTHOR: Vlead
+
+* Content Adapter
+  This module is responsible for modifying the raw content. It adds various stylings to the content before it has to be displayed in the web browser.

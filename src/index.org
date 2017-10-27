@@ -1,0 +1,34 @@
+#+TITLE: The Content Adapter
+#+AUTHOR: VLEAD
+#+SETUPFILE: ./org-templates/level-0.org
+#+TAGS: boilerplate(b)
+#+EXCLUDE_TAGS: boilerplate
+#+OPTIONS: ^:nil
+
+* Introduction
+  The Content Adapter module is a micro-service part of the VLabs
+  platform [[https://github.com/vlead/vlabs-platform/blob/refactoring/src/design/index.org][=design=]]. It is responsible for styling the content stored
+  in the content server. The Content Adapter module tries to imitate a
+  CMS tool.
+
+* Design
+  When the web browser makes a request for a particular resource to
+  the content server, the latter finds the resource and sends it to
+  the Content Adapter. The Content Adapter module receives an unstyled
+  HTML template and modifies it based on the stored configuration of
+  the adapter. This modified resource is sent back to the content
+  server, which in turn forwards it the web browers that originally
+  made the request.
+
+* Components
+
+  - [[./deployment/index.org][=deployment=]]
+
+  - [[./runtime/index.org][=runtime=]]
+
+
+* Tangle
+#+BEGIN_SRC python :eval no :tangle __init__.py
+print("Content Adapter package")
+
+#+END_SRC

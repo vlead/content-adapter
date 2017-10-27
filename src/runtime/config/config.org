@@ -1,0 +1,84 @@
+#+title: Configuration Parameters
+#+AUTHOR: VLEAD
+#+SETUPFILE: ../../org-templates/level-2.org
+#+TAGS: boilerplate(b)
+#+EXCLUDE_TAGS: boilerplate
+#+OPTIONS: ^:nil
+
+* Introduction
+
+  This holds the application's configuration parameters. It is important
+  to set these parameters before running the Content Adapter.
+
+#+NAME: class_config
+#+BEGIN_SRC python
+class Config:
+
+    def __init__(self):
+        pass
+
+#+END_SRC
+
+* Application Configuration
+  This contains the Flask configuration parameters for the application.
+#+NAME: app_config
+#+BEGIN_SRC python
+# List of allowed origins for CORS
+ALLOWED_ORIGINS = "['*']"
+
+# List of allowed IPs
+WHITELIST_IPS = ["127.0.0.1"]
+
+# Configure your log paths
+LOG_FILE_DIRECTORY = 'logs'
+LOG_FILE = 'translators.log'
+
+# Log level for the application
+# 10=DEBUG, 20=INFO, 30=WARNING, 40=ERROR, 50=CRITICAL
+LOG_LEVEL = 10
+
+#+END_SRC
+
+* Base Template Configuration
+  This contains the styling to be applied to the base template resource.
+#+NAME: base_template_config
+#+BEGIN_SRC python
+BASE_BODY_SCRIPT = '''
+    $(".body-wrapper").addClass("container-fluid");
+    $(".experiment-header").addClass("row align-items-center py-4");
+    $(".experiment-header").css("background-color", "#595fcc");
+    $(".experiment-logo").addClass("col-3");
+    $(".experiment-logo > img").addClass("img-fluid");
+    $(".experiment-heading").addClass("col-9");
+    $(".experiment-heading > h1").addClass("text-center");
+    $(".experiment-content").addClass("row align-items-center mt-5");
+    $(".experiment-menu").addClass("col-3");
+    $(".experiment-menu").css("font-size", "30px");
+    $(".experiment-section").addClass("row mx-auto py-1");
+    $(".experiment-display").addClass("col-9");
+    $(".experiment-footer").addClass("row align-items-center");
+    $("a").click(function(){
+        $(".experiment-display").load(this.dataset.url);
+    });
+    '''
+
+BASE_SCRIPT_LIBS = [{'name':"script", 'src':"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js", 'integrity':"sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1", 'crossorigin':"anonymous"},{'name':"link", 'rel':"stylesheet", 'href':"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css", 'integrity':"sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M", 'crossorigin':"anonymous"}, {'name':"script", 'src':"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js", 'integrity':"sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4", 'crossorigin':"anonymous"}, {'name':"script", 'src':"https://code.jquery.com/jquery-3.2.1.min.js", 'integrity':"sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=", 'crossorigin':"anonymous"}]
+
+#+END_SRC
+
+* Tangle
+
+ * System Configuration
+#+BEGIN_SRC python :tangle config.py :eval no :noweb yes
+<<class_config>>
+#+END_SRC
+
+ * app_config
+#+BEGIN_SRC python :tangle app_config.py :eval no :noweb yes
+<<app_config>>
+#+END_SRC
+
+ * base_template_config
+#+BEGIN_SRC python :tangle app_config.py :eval no :noweb yes
+<<base_template_config>>
+#+END_SRC

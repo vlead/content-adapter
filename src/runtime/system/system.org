@@ -1,0 +1,103 @@
+#+TITLE: Translators System
+#+AUTHOR: VLEAD
+#+DATE: [2016-06-07 Tue]
+#+SETUPFILE: ../../org-templates/level-2.org
+#+TAGS: boilerplate(b)
+#+EXCLUDE_TAGS: boilerplate
+#+OPTIONS: ^:nil
+
+* The =System= class
+  There is only one =System= in the application. This =System= uses
+  the Beautiful Soup library to analyse the template and add the
+  stylings stored in =Config=.
+
+** Constructor
+   The system cannot be initialized.
+
+#+NAME: class_system
+#+BEGIN_SRC python
+class System():
+
+    # use exceptions to raise error
+    # "cannot initialise error"
+    def __init__(self):
+        pass
+
+#+END_SRC
+
+** Methods
+   These methods are used to modify several types of resources
+   received from the Content Server. The type of styling applied is
+   specified in the [[../config/config.org][=Configuration=]] of the Content Adapter.
+
+*** modify_base_template
++ Applies the styling taken from =Config=.
+#+NAME: modify_base_template
+#+BEGIN_SRC python
+  @staticmethod
+  def modify_base_template(fp):
+      main_soup = BS4(fp)
+      soup = BS4()
+      
+      head_tag = main_soup.find("head")
+
+      body_tag = main_soup.find("body")
+      body_script = Config.BASE_BODY_SCRIPT
+
+      body_tag.script.append(body_script)
+      for lib in Config.BASE_SCRIPT_LIBS:
+          body_tag.insert(0, soup.new_tag(**lib))
+
+      html = main_soup.prettify("utf-8")
+      return html
+#+END_SRC
+
+*** modify_content
++ Applies the styling taken from =Config=.
+#+NAME: modify_content
+#+BEGIN_SRC python
+  @staticmethod
+  def modify_content(fp):
+      main_soup = BS4(fp)
+      soup = BS4()
+      
+      head_tag = main_soup.find("head")
+      head_tag.decompose()
+
+      style_tag = main_soup.find("style")
+      style_tag.decompose()
+      
+      script_tag = main_soup.find("script")
+      script_tag.decompose()
+
+      body_tag = main_soup.find("body")
+      body_tag.select('#table-of-contents')[0].decompose()
+      body_tag.select('#postamble')[0].decompose()
+      
+  #    body_script = Config.BASE_BODY_SCRIPT
+
+      body_tag.script.append(body_script)
+      for lib in Config.BASE_SCRIPT_LIBS:
+          body_tag.insert(0, soup.new_tag(**lib))
+
+      html = main_soup.prettify("utf-8")
+      return html
+#+END_SRC
+
+
+** Imports
+   The system requires access to the Beautiful Soup library
+#+NAME: imports_system
+#+BEGIN_SRC python
+from runtime.config.config import Config
+from bs4 import BeautifulSoup as BS4
+
+#+END_SRC
+   
+
+* Tangle                                                        :boilerplate:
+#+BEGIN_SRC python :tangle system.py :eval no :noweb yes
+<<imports_system>>
+<<class_system>>
+<<modify_base_template>>
+#+END_SRC

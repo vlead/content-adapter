@@ -1,0 +1,106 @@
+
+#+TITLE: The REST API
+#+AUTHOR: VLEAD
+#+SETUPFILE: ../../org-templates/level-2.org
+#+TAGS: boilerplate(b)
+#+EXCLUDE_TAGS: boilerplate
+#+OPTIONS: ^:nil
+
+* Introduction
+  This document illustrates building of REST API for the Content Adapter
+
+* REST
+
+** Blueprint
+#+NAME: blueprint
+#+BEGIN_SRC python
+api = Blueprint('APIs', __name__)
+
+#+END_SRC
+
+
+** Index
+#+NAME: index_route
+#+BEGIN_SRC python
+@api.route("/", methods=['GET'])
+def index():
+    pass
+  # return """<h1>Content-Server Running</h1><a href="https://github.com/vlead/content-server">https://github.com/vlead/content-server</a>"""
+
+#+END_SRC
+
+** Modify base template
+*** API design
+    
+    - URL :: /modify_base_template
+    - METHOD :: POST
+    - PAYLOAD :: HTML content
+    - SUCCESS Response :: Modified HTML content
+    - ERROR Response :: 400 Invalid Lab Spec
+
+*** =/modify_base_template= API
+    The route =/modify_base_template= is a route of method =POST=
+    which will return the styled HTML content based on the
+    configuration of the content adapter.
+
+#+NAME: modify_base_template
+#+BEGIN_SRC python
+@api.route('/modify_base_template', methods=['POST'])
+def modify_base_template():
+    if request.method == 'POST':
+        file = request.files['file']
+        try:
+            return SystemInterface.modify_base_template(file)
+        except Exception as e:
+            return make_response(str(e), 400, None)
+#+END_SRC
+
+
+** Modify content
+*** API design
+    
+    - URL :: /modify_content
+    - METHOD :: POST
+    - PAYLOAD :: HTML content
+    - SUCCESS Response :: Modified HTML content
+    - ERROR Response :: 400 Invalid Lab Spec
+
+*** =/modify_content= API
+    The route =/modify_content= is a route of method =POST=
+    which will return the styled HTML content based on the
+    configuration of the content adapter.
+
+#+NAME: modify_content
+#+BEGIN_SRC python
+@api.route('/modify_content', methods=['POST'])
+def modify_content():
+    if request.method == 'POST':
+        file = request.files['file']
+        try:
+            return SystemInterface.modify_content(file)
+        except Exception as e:
+            return make_response(str(e), 400, None)
+#+END_SRC
+
+
+
+* Imports
+#+NAME: imports_api
+#+BEGIN_SRC python
+import json, yaml
+from flask import Blueprint, session, request, make_response, \
+    jsonify, url_for, abort
+
+# Need to change the root PYTHONPATH during runtime
+from runtime.system.system_interface import *
+
+#+END_SRC
+
+
+* Tangle
+#+BEGIN_SRC python :tangle api.py :eval no :noweb yes
+<<imports_api>>
+<<blueprint>>
+<<index_route>>
+<<modify_base_template>>
+#+END_SRC

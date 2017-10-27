@@ -1,0 +1,60 @@
+#+TITLE: System Interface implementation for Content Adapter
+#+AUTHOR: VLEAD
+#+SETUPFILE: ../../org-templates/level-2.org
+#+TAGS: boilerplate(b)
+#+EXCLUDE_TAGS: boilerplate
+#+OPTIONS: ^:nil
+
+* Introduction
+  System Interface is the glue between the =rest= and =system=.  The world of
+  =rest= uses =json= and the world of =system= uses objects. System Interface
+  allows these two worlds to talk to each other.
+
+* The =System Interface= class
+
+** Constructor
+#+NAME: class_system_interface
+#+BEGIN_SRC python
+class SystemInterface():
+
+    # Should not create an instance of system interface
+    def __init__(self):
+        pass
+
+#+END_SRC
+   
+** Methods
+*** modify_base_template
+This method is only called on the base template of the experiment.
+#+NAME: modify_base_template
+#+BEGIN_SRC python
+    @staticmethod
+    def modify_base_template(content):
+        return System.modify_base_template(content)
+
+#+END_SRC
+
+*** modify_content
+This method is only called on the base template of the experiment.
+#+NAME: modify_content
+#+BEGIN_SRC python
+    @staticmethod
+    def modify_content(content):
+        return System.modify_content(content)
+
+#+END_SRC
+
+** Imports
+#+NAME: imports_system_interface
+#+BEGIN_SRC python
+from runtime.system.system import System
+
+#+END_SRC
+
+
+* Tangle :boilerplate:
+#+BEGIN_SRC python :tangle system_interface.py :eval no :noweb yes
+<<imports_system_interface>>
+<<class_system_interface>>
+<<modify_base_template>>
+#+END_SRC
